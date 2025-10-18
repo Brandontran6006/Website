@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Brandon Tran — Profile</title>
+<meta name="description" content="Resume-style profile with filterable highlights." />
+<link rel="icon" href="data:,">
+<style>
+:root{
+--bg: #0b0d12;
+--panel: #11141b;
+--soft: #1a1f29;
+--text: #e9eef7;
+--muted: #a7b0c2;
+--brand: #63a3ff;
+--accent: #8bd5ff;
+--ok: #22c55e;
+--warn:#f59e0b;
+--chip:#1e2532;
+--ring: 0 0 0 3px color-mix(in oklab, var(--brand) 35%, transparent);
+--radius: 14px;
+--shadow: 0 10px 30px rgba(0,0,0,.35);
+--maxw: 1080px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:linear-gradient(180deg,#0a0c10,#0c1119 40%,#0a0c10);color:var(--text);font:500 16px/1.6 Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:var(--maxw);margin:auto;padding:24px}
+header{
+position:sticky;top:0;z-index:50;background:linear-gradient(180deg,rgba(11,13,18,.9),rgba(11,13,18,.6));
+backdrop-filter: blur(10px);border-bottom:1px solid #1d2330
+}
+.topbar{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:12px 24px;max-width:var(--maxw);margin:auto}
+.id{display:flex;gap:14px;align-items:center}
+.avatar{
+width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#222a38,#141923);
+display:grid;place-items:center;color:#9db4d6;font-weight:700
+}
+.name h1{margin:0;font-size:18px;letter-spacing:.2px}
+.name small{display:block;margin-top:2px;color:var(--muted)}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
+.btn{
+appearance:none;border:1px solid #253046;background:var(--soft);color:var(--text);
+padding:8px 14px;border-radius:12px;cursor:pointer;transition:.2s box-shadow,.2s transform,.2s border-color
+}
+.btn:hover{box-shadow:var(--ring)}
+.btn.primary{background:linear-gradient(180deg,var(--brand),#4d87dd);border-color:#3b6eb6;color:#071426}
+.btn.ghost{background:transparent}
+.grid{
+display:grid;grid-template-columns: 280px 1fr;gap:24px;margin-top:24px
+}
+@media (max-width: 900px){
+.grid{grid-template-columns:1fr}
+.side{order:2}
+}
+.panel{
+background:linear-gradient(180deg,#0f131b,#0c1118 45%,#0b0f16);
+border:1px solid #1c2432;border-radius:var(--radius);box-shadow:var(--shadow)
+}
+.side{position:sticky;top:84px;height:fit-content}
+.card{padding:20px 18px;border-bottom:1px solid #182030}
+.card:last-child{border-bottom:0}
+.h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.h h2{margin:0;font-size:15px;text-transform:uppercase;letter-spacing:.14em;color:#9fb6d6}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{
+font-size:12px;padding:6px 10px;border-radius:999px;background:var(--chip);border:1px solid #27324a;color:#c4d1e9
+}
+.highlightbar{display:flex;gap:8px;flex-wrap:wrap}
+.toggle{
+appearance:none;border:1px solid #29344d;background:#111723;color:#cdd9ee;
+padding:7px 12px;border-radius:999px;cursor:pointer
+}
+.toggle.active{background:linear-gradient(180deg,#20324d,#1a2a43);border-color:#34507e;box-shadow:var(--ring)}
+.main .section{margin-bottom:20px}
+.section .head{
+padding:18px 20px;border-bottom:1px solid #182030;display:flex;justify-content:space-between;align-items:center
+}
+.section .head h3{margin:0;font-size:18px}
+.items{padding:14px}
+.item{
+padding:16px;border:1px solid #1b2333;border-radius:12px;background:linear-gradient(180deg,#0e1420,#0d131d);
+margin-bottom:12px;transition:.2s transform,.2s border-color
+}
+.item:hover{transform:translateY(-2px);border-color:#2a3752}
+.item .title{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.item .title h4{margin:0;font-size:16px}
+.meta{color:var(--muted);font-size:14px;margin-top:4px}
+.bullets{margin:10px 0 0 0;padding-left:18px}
+.bullets li{margin:8px 0}
+.tagline{color:#cfe2ff}
+.pill{font-size:11px;border:1px solid #2b3753;padding:4px 8px;border-radius:999px;background:#121a27;color:#a8c1ef}
+.split{display:flex;gap:10px;flex-wrap:wrap}
+.skills{display:flex;flex-wrap:wrap;gap:8px}
+.statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:700px){.statrow{grid-template-columns:1fr 1fr}}
+.stat .n{font-weight:800;font-size:22px}
+.stat{padding:12px;border:1px solid #1b2333;border-radius:12px;background:#0f1521}
+.note{color:var(--muted);font-size:13px}
+.search{position:relative}
+.search input{
+width:100%;padding:10px 12px 10px 36px;border-radius:10px;border:1px solid #27324a;background:#0e1420;color:var(--text)
+}
+.search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);opacity:.7}
+.footer{margin:30px 0;color:var(--muted);text-align:center}
+/* highlight states */
+.dim{opacity:.35;filter:saturate(.6)}
+.hit{outline:2px solid color-mix(in oklab,var(--brand) 55%, transparent);outline-offset:2px}
+/* print */
+@media print{
+header,.side .card:nth-child(2){display:none}
+body{background:white;color:black}
+.panel{border:0;box-shadow:none}
+a{text-decoration:none;color:inherit}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="topbar">
+<div class="id">
+<div class="avatar">BT</div>
+<div class="name">
+<h1 id="fullName">Brandon Tran</h1>
+<small id="headline">Technology Risk Consulting • MIS & SCM @ UH</small>
+</div>
+</div>
+<div class="cta">
+<a id="emailLink" class="btn">Email</a>
+<a id="linkedinLink" class="btn ghost">LinkedIn</a>
+<button class="btn" id="printBtn">Print / Save PDF</button>
+<button class="btn primary" id="downloadJSON">Export Data</button>
+</div>
+</div>
+</header>
+
+<main class="wrap">
+<div class="grid">
+<!-- Side -->
+<aside class="side panel">
+<div class="card">
+<div class="h"><h2>Highlight</h2></div>
+<div class="highlightbar" id="highlightBar">
+<button class="toggle" data-key="business">Business</button>
+<button class="toggle" data-key="consulting">Consulting</button>
+<button class="toggle" data-key="technology">Tech</button>
+<button class="toggle" data-key="ai">AI</button>
+<button class="toggle" data-key="leadership">Leadership</button>
+<button class="toggle" data-key="all">Show All</button>
+</div>
+<p class="note" style="margin-top:10px">
+Click a track to spotlight relevant bullets across your résumé. Click “Show All” to reset.
+</p>
+</div>
+
+<div class="card">
+<div class="h"><h2>About</h2></div>
+<div id="about"></div>
+</div>
+
+<div class="card">
+<div class="h"><h2>Contact</h2></div>
+<div id="contact"></div>
+</div>
+
+<div class="card">
+<div class="h"><h2>Skills</h2></div>
+<div class="skills" id="skillChips"></div>
+</div>
+
+<div class="card">
+<div class="h"><h2>Search</h2></div>
+<div class="search">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="#8aa0c2" stroke-width="1.6" stroke-linecap="round"/></svg>
+<input id="search" placeholder="Filter bullets & sections…" />
+</div>
+</div>
+
+<div class="card">
+<div class="h"><h2>Stats</h2></div>
+<div class="statrow" id="stats"></div>
+</div>
+</aside>
+
+<!-- Main -->
+<section class="main panel">
+<!-- Experience -->
+<div class="section" id="experienceSection">
+<div class="head">
+<h3>Experience</h3>
+<span class="pill" id="expCount">0 roles</span>
+</div>
+<div class="items" id="experience"></div>
+</div>
+
+<!-- Projects -->
+<div class="section" id="projectsSection">
+<div class="head">
+<h3>Projects</h3>
+<span class="pill" id="projCount">0 projects</span>
+</div>
+<div class="items" id="projects"></div>
+</div>
+
+<!-- Education -->
+<div class="section" id="educationSection">
+<div class="head">
+<h3>Education</h3>
+</div>
+<div class="items" id="education"></div>
+</div>
+
+<!-- Leadership & Activities -->
+<div class="section" id="leadershipSection">
+<div class="head">
+<h3>Leadership & Activities</h3>
+</div>
+<div class="items" id="leadership"></div>
+</div>
+
+<!-- Certifications & Awards -->
+<div class="section" id="awardsSection">
+<div class="head">
+<h3>Certifications & Awards</h3>
+</div>
+<div class="items" id="awards"></div>
+</div>
+
+</section>
+</div>
+
+<div class="footer">© <span id="year"></span> <span id="nameFoot">Brandon Tran</span>. Built with ❤️ and vanilla JS.</div>
+</main>
+
+<script>
+// ======= DATA (edit this) =================================================
+const DATA = {
+person: {
+name: "Brandon Tran",
+headline: "Technology Risk Consulting • MIS & SCM @ University of Houston",
+about: "Junior at the University of Houston (C.T. Bauer). Interested in Technology Risk Consulting, ERP, and analytics. Detail-oriented and metrics-driven with client-facing experience.",
+email: "mailto:brandon.tran@example.com",
+linkedin: "https://www.linkedin.com/in/btran123/",
+location: "Houston, TX",
+skills: ["Technology Risk", "Internal Audit", "ERP (SAP)", "Process Mapping", "SQL", "Python", "Power BI", "Excel (VLOOKUP, Pivot)", "Risk & Controls", "Data Visualization", "Leadership", "Client Communication"]
+},
+stats: [
+{label: "GPA", value: "3.9"},
+{label: "Projects", value: "10+"},
+{label: "Team Size Led", value: "8"}
+],
+experience: [
+{
+role: "Technology Risk Consulting Intern",
+company: "RSM US LLP",
+location: "Houston, TX",
+start: "Summer 2026",
+end: "Incoming",
+tags: ["consulting","technology","business","leadership"],
+bullets: [
+{ text: "Assist with IT General Controls (ITGC), business process controls testing, and walkthroughs for regulated clients; document evidence and results.", tags:["consulting","technology"]},
+{ text: "Support risk assessments and control design reviews across revenue, procure-to-pay, and change management cycles.", tags:["consulting","business"]},
+{ text: "Build repeatable workpapers and dashboards to track testing status and findings; improve visibility for managers.", tags:["technology","business"]}
+]
+},
+{
+role: "Business Intern (Operations & Analytics)",
+company: "Endress+Hauser — Gas Measurement Division",
+location: "Houston, TX",
+start: "Summer 2025",
+end: "Summer 2025",
+tags: ["business","technology"],
+bullets: [
+{ text: "Analyzed 120k+ expedited order lines; surfaced patterns that reduced manual touches by 25%.", tags:["business","technology"]},
+{ text: "Built Excel/Power BI dashboards and barcode-scan flows to cut entry time by ~75%.", tags:["technology","business"]},
+{ text: "Outlined SAP integration roadmap with cross-functional leads; mapped risks, owners, and milestones.", tags:["technology","consulting","business"]}
+]
+},
+{
+role: "General Manager",
+company: "Kirkwood Washateria",
+location: "Houston, TX",
+start: "2024",
+end: "Present",
+tags: ["leadership","business","technology"],
+bullets: [
+{ text: "Supervise staff scheduling and service quality; introduced digital inventory tracking to reduce stock-outs.", tags:["leadership","business","technology"]},
+{ text: "Implemented simple KPIs (OTIF pickup, rewash rate) and weekly huddles to improve throughput.", tags:["business","leadership"]}
+]
+},
+{
+role: "Server Team Leader",
+company: "Sushi Masa",
+location: "Houston, TX",
+start: "2023",
+end: "2024",
+tags: ["leadership","business"],
+bullets: [
+{ text: "Coordinated 6–8 servers during peak periods; standardized table handoffs to speed turns.", tags:["leadership","business"]},
+{ text: "Mentored new staff on upsell prompts, improving check averages.", tags:["business","leadership"]}
+]
+}
+],
+projects: [
+{
+name: "Meta Content Ops Case",
+tagline: "Rotation design, AI feedback loops, KPI dashboard",
+link: "",
+tags: ["ai","technology","consulting","business"],
+bullets: [
+{text: "Proposed rotation system for content reviewers to reduce fatigue and bias.", tags:["consulting","business"]},
+{text: "Outlined back-prop improvements and human-in-the-loop checks for model drift.", tags:["ai","technology"]},
+{text: "Built KPI schema (precision, recall, TAT) and dashboard mockups.", tags:["technology","business"]}
+]
+},
+{
+name: "CUBIO Innovation Strategy",
+tagline: "Startup scouting & partner pipeline",
+link: "",
+tags: ["consulting","business","technology"],
+bullets: [
+{text: "Identified 10+ biotech startups and mapped partnership fit (clinical, go-to-market, funding stage).", tags:["business","consulting"]},
+{text: "Delivered audit-prep plan and investor-ready metrics dashboard.", tags:["technology","consulting"]}
+]
+}
+],
+education: [
+{
+school: "University of Houston — C.T. Bauer College of Business",
+credential: "B.B.A. Management Information Systems & Supply Chain Management (Double Major)",
+dates: "2023 – 2027 (expected)",
+bullets: [
+"Dean’s List (Fall 2023, Spring 2024)",
+"Organizations: ABSA, Challenger Program"
+]
+}
+],
+leadership: [
+{
+org: "Campus & Community",
+title: "Mentor / Team Lead",
+dates: "2024 – Present",
+bullets: [
+"Mentored first-generation students on résumés and interviews.",
+"Facilitated workshops engaging 200+ students."
+],
+tags:["leadership","business"]
+}
+],
+awards: [
+{ name: "Academic Excellence / Dean’s List", org: "University of Houston", year: "2023–2024" },
+{ name: "UH Scholars Grant", org: "University of Houston", year: "2024" }
+]
+};
+
+// ======= RENDERING ========================================================
+const $ = (sel, el=document)=>el.querySelector(sel);
+const $$ = (sel, el=document)=>[...el.querySelectorAll(sel)];
+
+function el(tag, props={}, ...children){
+const node = document.createElement(tag);
+Object.entries(props).forEach(([k,v])=>{
+if(k==='class') node.className=v;
+else if(k==='html') node.innerHTML=v;
+else if(k.startsWith('on')) node.addEventListener(k.slice(2), v);
+else node.setAttribute(k,v);
+});
+children.forEach(c=>{
+if(c==null) return;
+if(typeof c === 'string') node.appendChild(document.createTextNode(c))
+else node.appendChild(c);
+});
+return node;
+}
+
+function renderChips(id, arr){
+const root = $(id);
+root.innerHTML='';
+arr.forEach(s=> root.appendChild(el('span',{class:'chip'}, s)));
+}
+
+function renderContact(){
+const root = $("#contact");
+root.innerHTML='';
+const list = [
+{k:"Email", v: DATA.person.email, href: DATA.person.email},
+{k:"LinkedIn", v: "linkedin.com/in/btran123", href: DATA.person.linkedin},
+{k:"Location", v: DATA.person.location}
+];
+list.forEach(({k,v,href})=>{
+const row = el('div',{}, el('strong',{}, k, ': '), href ? el('a',{href}, v) : el('span',{}, v));
+root.appendChild(row);
+});
+}
+
+function bulletLi(b){
+const li = el('li', {'data-tags': (b.tags||[]).join(',')}, b.text);
+return li;
+}
+
+function cardItem(obj, titleLeft, titleRight){
+const head = el('div',{class:'title'},
+el('h4',{}, titleLeft),
+titleRight ? el('span',{class:'pill'}, titleRight) : null
+);
+const meta = obj.location || obj.dates || (obj.start? `${obj.start} – ${obj.end||'Present'}` : '');
+const metaEl = el('div',{class:'meta'}, meta);
+
+const ul = el('ul',{class:'bullets'});
+(obj.bullets||[]).forEach(b=> ul.appendChild(bulletLi(b)));
+
+const tagsAll = (obj.tags||[]).map(t=> el('span',{class:'pill'}, t));
+const tail = el('div',{class:'split'}, ...tagsAll);
+
+const wrapper = el('div',{class:'item', 'data-tags': (obj.tags||[]).join(',')},
+head, metaEl, ul, tail
+);
+return wrapper;
+}
+
+function renderExperience(){
+const root = $("#experience"); root.innerHTML='';
+DATA.experience.forEach(r=>{
+const item = cardItem(r, `${r.role} — ${r.company}`, r.start? `${r.start} ${r.end ? '· '+r.end : ''}`: '');
+root.appendChild(item);
+});
+$("#expCount").textContent = `${DATA.experience.length} roles`;
+}
+
+function renderProjects(){
+const root = $("#projects"); root.innerHTML='';
+DATA.projects.forEach(p=>{
+const left = p.link ? `${p.name} · ${p.tagline} — ` : `${p.name} · ${p.tagline}`;
+const item = cardItem(p, p.name, p.tagline);
+root.appendChild(item);
+});
+$("#projCount").textContent = `${DATA.projects.length} projects`;
+}
+
+function renderEducation(){
+const root = $("#education"); root.innerHTML='';
+DATA.education.forEach(e=>{
+const item = el('div',{class:'item'},
+el('div',{class:'title'}, el('h4',{}, e.school)),
+el('div',{class:'meta'}, e.credential + (e.dates? ` • ${e.dates}`:'')),
+e.bullets ? el('ul',{class:'bullets'}, ...e.bullets.map(b=> el('li',{}, b))) : null
+);
+root.appendChild(item);
+});
+}
+
+function renderLeadership(){
+const root = $("#leadership"); root.innerHTML='';
+DATA.leadership.forEach(e=>{
+const item = cardItem(e, `${e.title} — ${e.org}`, e.dates||'');
+root.appendChild(item);
+});
+}
+
+function renderAwards(){
+const root = $("#awards"); root.innerHTML='';
+DATA.awards.forEach(a=>{
+const item = el('div',{class:'item'},
+el('div',{class:'title'}, el('h4',{}, a.name)),
+el('div',{class:'meta'}, `${a.org}${a.year?' • '+a.year:''}`)
+);
+root.appendChild(item);
+});
+}
+
+function renderAbout(){
+$("#about").textContent = DATA.person.about;
+$("#fullName").textContent = DATA.person.name;
+$("#headline").textContent = DATA.person.headline;
+$("#nameFoot").textContent = DATA.person.name;
+$("#emailLink").href = DATA.person.email;
+$("#linkedinLink").href = DATA.person.linkedin;
+renderChips("#skillChips", DATA.person.skills);
+$("#year").textContent = new Date().getFullYear();
+}
+
+function renderStats(){
+const root = $("#stats"); root.innerHTML='';
+DATA.stats.forEach(s=>{
+const card = el('div',{class:'stat'},
+el('div',{class:'n'}, s.value),
+el('div',{class:'note'}, s.label)
+);
+root.appendChild(card);
+});
+}
+
+// ======= INTERACTIONS =====================================================
+function setHighlight(key){
+const allItems = $$(".item");
+const allBullets = $$(".bullets li");
+
+// reset
+allItems.forEach(i=> i.classList.remove('dim','hit'));
+allBullets.forEach(b=> b.classList.remove('dim','hit'));
+
+if(key==='all'){ return; }
+
+const match = (node)=> (node.getAttribute('data-tags')||'').split(',').includes(key);
+
+// Dim non-matching; highlight matches
+allItems.forEach(i=>{
+const tags = (i.getAttribute('data-tags')||'').split(',');
+if(!tags.includes(key)){
+i.classList.add('dim');
+}else{
+i.classList.add('hit');
+}
+});
+allBullets.forEach(b=>{
+if(!match(b)) b.classList.add('dim'); else b.classList.add('hit');
+});
+}
+
+function wireHighlightBar(){
+$$("#highlightBar .toggle").forEach(btn=>{
+btn.addEventListener('click', ()=>{
+$$("#highlightBar .toggle").forEach(b=> b.classList.remove('active'));
+btn.classList.add('active');
+setHighlight(btn.dataset.key);
+});
+});
+}
+
+function wireSearch(){
+$("#search").addEventListener('input', (e)=>{
+const q = e.target.value.trim().toLowerCase();
+const sections = $$(".section .items");
+sections.forEach(sec=>{
+$$(".item", sec).forEach(item=>{
+const text = item.textContent.toLowerCase();
+item.style.display = text.includes(q) ? '' : 'none';
+});
+});
+});
+}
+
+function wirePrint(){
+$("#printBtn").addEventListener('click', ()=> window.print());
+}
+
+function wireExport(){
+$("#downloadJSON").addEventListener('click', ()=>{
+const blob = new Blob([JSON.stringify(DATA,null,2)], {type:'application/json'});
+const url = URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = url; a.download = 'profile-data.json'; a.click();
+URL.revokeObjectURL(url);
+});
+}
+
+// ======= INIT =============================================================
+renderAbout();
+renderStats();
+renderExperience();
+renderProjects();
+renderEducation();
+renderLeadership();
+renderAwards();
+renderContact();
+wireHighlightBar();
+wireSearch();
+wirePrint();
+wireExport();
+
+// ======= JSON-LD (SEO) ====================================================
+const ld = {
+"@context":"https://schema.org",
+"@type":"Person",
+"name": DATA.person.name,
+"email": DATA.person.email.replace("mailto:",""),
+"jobTitle": "Student / Consulting Intern",
+"url": window.location.href,
+"sameAs": [DATA.person.linkedin],
+"address": {"@type":"PostalAddress", "addressLocality":"Houston","addressRegion":"TX","addressCountry":"US"}
+};
+const script = document.createElement('script');
+script.type="application/ld+json"; script.textContent=JSON.stringify(ld);
+document.head.appendChild(script);
+</script>
+</body>
+</html>
